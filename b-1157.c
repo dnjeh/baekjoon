@@ -1,23 +1,21 @@
 #include <stdio.h>
-char b[1000001]={'\0',};
 int main() {
-    char max[2];
-    int a[26]={0,}, i, t=0;
-    scanf("%s", b);
-    for(i=0;b[i]!='\0';i++) {
-        a[(b[i]>=97)?(b[i]-97):(b[i]-65)]++;
+    char max[2], t;
+    int a[26]={0,}, i, it=0;
+    for(;scanf("%c", &t)!=EOF;) {
+        a[(t>=97)?(t-97):(t-65)]++;
     }
     for(i=0;i<26;i++) {
         if(i==0||max[0]<a[i]) {
             max[0]=a[i];
             max[1]=i;
-            t=0;
+            it=0;
         }
         else if(max[0]==a[i]&&max[0]!=0) {
-            t++;
+            it++;
         }
     }
-    if(t) {
+    if(it) {
         printf("?");
         return 0;
     }
