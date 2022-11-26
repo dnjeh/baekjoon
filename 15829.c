@@ -3,7 +3,7 @@ int main() {
     long long int sum=(long long int)0, mum=(long long int)1, i, j, n;
     char t;
     scanf("%lld", &n);
-    fflush(stdin);
+    getchar();
     for(i=0;i<n;i++) {
         scanf("%c", &t);
         t-=96;

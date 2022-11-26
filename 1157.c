@@ -1,8 +1,7 @@
 #include <stdio.h>
 char b[1000001]={'\0',};
 int main() {
-    char max[2];
-    int a[26]={0,}, i, t=0;
+    int a[26]={0,}, i, t=0, max[2];
     scanf("%s", b);
     for(i=0;b[i]!='\0';i++) {
         a[(b[i]>=97)?(b[i]-97):(b[i]-65)]++;
