@@ -1,33 +1,30 @@
 #include <stdio.h>
-#include <stdlib.h>
-int com(const void* _t, const void* _tt) {
-    if (*(int*)_t<*(int*)_tt) return 1;
-    else if (*(int*)_t>*(int*)_tt) return -1;
-    else return 0;
-}
-int a[100], b[100];
+#include <math.h>
+int a[101], b[10];
 int main() {
-    int T, t, n, max[2]={0, }, i, j, m, cnt=1;
+    int T, n, m, i, j, cnt, now=0;
     scanf("%d", &T);
     for(i=0;i<T;i++) {
         scanf("%d %d", &n, &m);
-        t=max[0]=max[1]=0;
-        cnt=1;
+        now=cnt=0;
+        for(j=0;j<10;j++) b[j]=0;
         for(j=0;j<n;j++) {
             scanf("%d", &a[j]);
-            b[j]=a[j];
+            if(!b[a[j]]) now+=(int)pow(10, a[j]);
+            b[a[j]]++;
         }
-        for(j=m-1;a[(j+n)%n]>a[m];j--) {
-            if(a[m]==a[(j+n)%n]) t++;
-        }
-        qsort(b, n, sizeof(int), com);
-        for(j=0;j<n;j++) {
-            if(a[j]==a[m]) t--;
-            if(!t) {
-                printf("%d\n", j+1);
-                break;
+        for(;cnt>=0;) for(j=0;j<n;j++) {
+            if((now/(int)pow(10, a[j]))==1) {
+                cnt++;
+                b[a[j]]--;
+                if(b[a[j]]<=0) now-=(int)pow(10, a[j]);
+                a[j]=0;
+                if(j==m) {
+                    printf("%d\n", cnt);
+                    cnt=-1;
+                    break;
+                }
             }
         }
-        
-    } 
+    }
 }
