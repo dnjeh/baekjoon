@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <windows.h>
 int a[2187][2187], b[3];
 void ppcut(int siz, int I, int J);
 void ppcutMulti(int ssiz, int ii, int jj) {
@@ -13,10 +12,10 @@ void ppcut(int siz, int I, int J) {
     int _t=-2, f=0;
     for(int i=0+I;i<I+siz;i++) {
         for(int j=0+J;j<J+siz;j++) {
-            if(_t!=2&&_t!=a[i][j]) {
-                printf("걸려들었다! i : %d, j : %d입니다.\n", i, j);
+            if(_t!=-2&&_t!=a[i][j]) {
                 f=1;
                 ppcutMulti(siz/3, I, J);
+                return;
             }
             _t=a[i][j];
         }
@@ -31,5 +30,4 @@ int main() {
     }
     ppcut(n, 0, 0);
     for(i=0;i<3;i++) printf("%d\n", b[i]);
-    Sleep(100000);
 }
