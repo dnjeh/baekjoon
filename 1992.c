@@ -1,4 +1,3 @@
-#include <windows.h>
 #include <stdio.h>
 int a[64][64];
 void pp2(int siz, int I, int J);
@@ -36,5 +35,4 @@ int main() {
         }
     }
     pp2(n, 0, 0);
-    system("pause");
 }
