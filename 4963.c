@@ -6,7 +6,7 @@ void find(int x, int y) {
     for(int i=-1;i<2;i++) {
         for(int j=-1;j<2;j++) {
             if(!(i||j)) continue;
-            if((x+j)>0&&(y+i)>0&&(x+j)<w&&(y+i)<h) find(x+j, y+i);
+            if((x+j)>=0&&(y+i)>=0&&(x+j)<w&&(y+i)<h) find(x+j, y+i);
         }
     }
 }
@@ -17,8 +17,10 @@ int main() {
     for(i=0;i<h;i++) for(j=0;j<w;j++) scanf("%d", &a[i][j]);
     for(i=0;i<h;i++) {
         for(j=0;j<w;j++) {
-            if(a[i][j]) find(j, i);
-            cnt++;
+            if(a[i][j]) {
+                find(j, i);
+                cnt++;
+            }
         }
     }
     printf("%d\n", cnt);
