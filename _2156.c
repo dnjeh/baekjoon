@@ -3,7 +3,7 @@ int a[10000], b[10000], cnt[10000];
 int dp(int _t) {
     int ret=0, t1, t2, t3, t4;
     if(_t<0) ret=0;
-    else if(b[_t]) ret=b[_t];
+    else if(b[_t]!=-1) ret=b[_t];
     else {  
         if((t1=dp(_t-1))+a[_t]>ret&&cnt[_t-1]<=1) {
             ret=t1+a[_t];
@@ -30,6 +30,7 @@ int main() {
     scanf("%d", &n);
     for(i=0;i<n;i++) {
         scanf("%d", &a[i]);
+        b[i]=-1;
     }
     dp(n-1);
     for(i=0;i<n;i++) {
