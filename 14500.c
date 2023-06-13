@@ -1,14 +1,20 @@
 #include <stdio.h>
 int a[500][500], n, m;
 int find(int y, int x, int cnt, int dic) {
+    int ret=0;
     if(cnt>=3) {
-        return a[y][x];
+        ret=a[y][x];
     }
     else {
-        
+        if(dic!=1&&y-1>=0) {
+            if(!ret||ret)
+        }
     }
+    return ret;
 }
+int dfind(int i, int j) {
 
+}
 int main() {
     int i, j, max=0, t;
     scanf("%d %d", &n, &m);
@@ -22,7 +28,14 @@ int main() {
             if(max<(t=find(i, j, 0, 0))) {
                 max=t;
             }
+            if(max<(t=dfind(i, j))) {
+                max=t;
+            }
         }
     }
     printf("%d", max);
 }
+
+// 1
+//4 2
+// 3
