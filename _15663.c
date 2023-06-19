@@ -7,14 +7,14 @@ void back(int cnt) {
             printf("%d%c", b[i], i+1<m?' ':'\n');
         }
     }
-    else for(int i=0;tcnt+1<tocnt;i++) {
-        if(a[i]&&!mem[a[i]]) {
-            mem[a[i]]=1;
+    else for(int i=0;tcnt<tocnt;i++) {
+        if(a[i%ind]&&!mem[a[i%ind]]) {
+            mem[a[i%ind]]=1;
             tcnt++;
-            b[cnt]=_t=a[i];
-            a[i]=0;
+            b[cnt]=_t=a[i%ind];
+            a[i%ind]=0;
             back(cnt+1);
-            a[i]=_t;
+            a[i%ind]=_t;
         }
     }
 }
@@ -26,12 +26,13 @@ int main() {
         t[it]++;
     } 
     for(i=1;i<=10000;i++) {
-        if(t[i]&&a[ind]!=i) tocnt++;
         if(t[i]) { 
+            if(!ind||a[ind-1]!=i) tocnt++;
             a[ind++]=i; 
             t[i]--; 
             i--;
         }
     }
     back(0);
+    return 0;
 } 
