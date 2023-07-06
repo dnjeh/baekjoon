@@ -7,7 +7,7 @@ int main() {
     scanf("%d %d", &n, &m);
     for(i=0;i<m;i++) {
         for(j=0;j<3;j++) scanf("%d", &t[j]);
-        t[0]--; t[1]--; t[2]--;
+        t[0]--; t[1]--; 
         if(p[t[0]][t[1]]==-1||p[t[0]][t[1]]>t[2]) p[t[0]][t[1]]=t[2];
     }
     scanf("%d %d", &sta, &end); 
