@@ -2,7 +2,7 @@
 int a[16][16], mem[3][16][16], n;
 void set();  //mem[0]이 가로, 1이 대각선, 2가 세로
 int dp(int t, int y, int x) {
-    if(!a[y][x]) { mem[t][y][x]=0; }
+    if(a[y][x]) { mem[t][y][x]=0; }
     int ret=0;
     if(mem[t][y][x]!=-1) ret=mem[t][y][x];
     else {
@@ -33,14 +33,8 @@ int main() {
     }
     for(i=0;i<3;i++) {
         sum+=dp(i, n-1, n-1);
-        for(int k=0;k<3;k++) for(int i=0;i<n;i++) {
-            for(int j=0;j<n;j++) printf("%d ", mem[k][i][j]);
-            printf("\n");
-        }
-    printf("\n");
     }
     printf("%d", sum);
-    for(;;) {}
 }
 
 void set() {
