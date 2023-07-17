@@ -9,7 +9,7 @@ int par(int y, int x, int dy, int dx) {
 }
 int bfs(int y, int x) {
     int ind=1, i, _x, _y, sum=0, cal; q[0][0]=y; q[0][1]=x;
-    //vis[y][x]=1;
+    vis[y][x]=1;
     for(i=0;i<ind;i++) {
         _y=q[i][0]; _x=q[i][1];
         sum+=a[_y][_x];
@@ -35,25 +35,19 @@ int bfs(int y, int x) {
         }
     } cal=sum/ind;
     for(i=0;i<ind;i++) a[q[i][0]][q[i][1]]=cal;
-    if(ind!=1) return 0;
-    else return 1;
+    if(ind!=1) return 1;
+    else return 0;
 }
 int main() {
-    int i, j, d, f=0;
+    int i, j, d, f=1;
     scanf("%d %d %d", &n, &l, &r);
     for(i=0;i<n;i++) {
         for(j=0;j<n;j++) {
             scanf("%d", &a[i][j]);
         }
     }
-    for(d=0;!f;d++) {
-        for(i=0;i<n;i++) {
-            for(j=0;j<n;j++) {
-                printf("%d ", a[i][j]);
-            }
-            printf("\n");
-        }
-        printf("\n\n");
+    for(d=0;f;d++) {
+        f=0;
         set();
         for(i=0;i<n;i++) for(j=0;j<n;j++) {
             if(!vis[i][j]) {
