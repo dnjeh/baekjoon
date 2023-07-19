@@ -19,7 +19,7 @@ void turn(int t, int d, int pre) {
     for(i=d==1?8:1;i>=0&&i<=9;i-=d) {
         a[t][i+d]=a[t][i];
     } i+=d;
-    a[t][i+d*8]=a[t][i];
+    a[t][i+d*8]=a[t][i]; //여기 문제!
     a[t][i]=0;
     if(pf) turn(d-1, d==1?-1:1, t);
     if(nf) turn(d+1, d==1?-1:1, t);
