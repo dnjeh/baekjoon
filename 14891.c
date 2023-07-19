@@ -20,6 +20,7 @@ void turn(int t, int d, int pre) {
         a[t][i+d]=a[t][i];
     } i+=d;
     a[t][i+d*8]=a[t][i];
+    a[t][i]=0;
     if(pf) turn(d-1, d==1?-1:1, t);
     if(nf) turn(d+1, d==1?-1:1, t);
 }
