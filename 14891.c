@@ -14,15 +14,15 @@ int b(int p, int n) {
 }
 void turn(int t, int d, int pre) {
     int i, pf=0, nf=0;
-    if(d-1>=0&&pre!=d-1&&b(d-1,d)) pf=1;
-    if(d+1<4&&pre!=d+1&&b(d,d+1)) nf=1;
+    if(t-1>=0&&pre!=t-1&&b(t-1,t)) pf=1;
+    if(t+1<4&&pre!=t+1&&b(t,t+1)) nf=1;
     for(i=d==1?8:1;i>=0&&i<=9;i-=d) {
         a[t][i+d]=a[t][i];
-    } i+=d;
-    a[t][i+d*8]=a[t][i]; //여기 문제!
-    a[t][i]=0;
-    if(pf) turn(d-1, d==1?-1:1, t);
-    if(nf) turn(d+1, d==1?-1:1, t);
+    } 
+    if(d==1) a[t][1]=a[t][9]; //여기 문제!
+    else a[t][8]=a[t][0];
+    if(pf) turn(t-1, d==1?-1:1, t);
+    if(nf) turn(t+1, d==1?-1:1, t);
 }
 int main() {
     int i, j, n, t, tt;
