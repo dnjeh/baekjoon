@@ -20,19 +20,16 @@ int chk(int y, int x, int c) {
     else return 0;
 }
 void bac(int y, int x) {
-    if(!max||max<cnt) {
-        printf("%d\n", cnt);
-        max=cnt;
-    }
-    int i, j, k;
+    int i, j, k, f=0;
     if(cnt>=81) {
         printa();
         exit(0);
     }
     else {
         for(i=y;i<9;i++) {
-            for(j=x;j<9;j++) {
+            for(j=(y==i?x:0);j<9;j++) {
                 if(!a[i][j]) {
+                    f=1;
                     for(k=1;k<=9;k++) {
                         if(chk(i, j, k)) {
                             a[i][j]=k;
@@ -45,6 +42,7 @@ void bac(int y, int x) {
                         }
                     }
                 }
+                if(f) return;
             }
         }
     }
