@@ -6,7 +6,7 @@ void printa() {
     printf("\n");
     for(i=0;i<r;i++) {
         for(j=0;j<c;j++) {
-            printf("%d ", a[i][j]);
+            printf("%d ", vis[i][j]);
         }
         printf("\n");
     }
@@ -16,12 +16,12 @@ int chk(int y, int x, int f) {
     if(x-1>=0&&!a[y][x-1]&&vis[y][x-1]==f) ret++; ret<<=1;
     if(x+1<c&&!a[y][x+1]&&vis[y][x+1]==f) ret++; ret<<=1;
     if(y-1>=0&&!a[y-1][x]&&vis[y-1][x]==f) ret++; ret<<=1;
-    if(y+1<r&&!a[y+1][x]&&vis[y+1][x]==f) ret++; ret<<=1;
+    if(y+1<r&&!a[y+1][x]&&vis[y+1][x]==f) ret++;
     return ret;
 }
 int ch(int t) {
     int ret=0;
-    for(;t;t>>=1) if(t%2) ret++;
+    for(;t;t>>=1) if(t&1) ret++;
     return ret;
 }
 void qput(int y, int x) {
