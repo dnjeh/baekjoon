@@ -1,5 +1,5 @@
 #include <stdio.h>
-int a[100][100], vis[100][100], q[10100][2];
+int a[100][100], vis[100][100], q[20000][2];
 int ind, now, let=0, r, c;
 void printa() {
     int i, j;
@@ -27,12 +27,14 @@ int ch(int t) {
 void qput(int y, int x) {
     q[ind][0]=y;
     q[ind++][1]=x;
+    vis[y][x]=1;
 }   
-void bfs() {
+void bfs(int f) {
     int y, x, t;
     for(;now<ind;now++) {
         y=q[now][0]; x=q[now][1]; 
-        t=chk(y, x, 0); vis[y][x]=1;
+        t=chk(y, x, 0); 
+        if(f) vis[y][x]=1;
         if(t&8) qput(y, x-1); 
         if(t&4) qput(y, x+1); 
         if(t&2) qput(y-1, x); 
@@ -49,20 +51,20 @@ int main() {
         }
     }
     qput(0, 0);
-    bfs();
+    bfs(0);
     for(cnt=0;let>0;cnt++) {
-        printa();
+        //printa();
         for(i=0;i<r;i++) {
             for(j=0;j<c;j++) {
-                if(ch(chk(i, j, 1))>=2) {
+                if(a[i][j]&&ch(chk(i, j, 1))>=2) {
                     a[i][j]=0;
                     let--;
                     qput(i, j);
+                    vis[i][j]=0;
                 }
             }
         }
-        bfs();
+        bfs(1);
     }
     printf("%d", cnt);
-    for(;;);
 }
