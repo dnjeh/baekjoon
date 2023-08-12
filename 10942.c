@@ -25,7 +25,7 @@ int main() {
     scanf("%d", &m);
     for(i=0;i<m;i++) {
         scanf("%d %d", &s, &e);
-        printf("%d\n", dp(s, e));
+        printf("%d\n", dp(s-1, e-1));
     }
 }
 void set() {
