@@ -51,7 +51,7 @@ int main() {
     int i,j;
     for(i=0;i<9;i++) {
         for(j=0;j<9;j++) {
-            scanf("%d", &a[i][j]);
+            scanf("%01d", &a[i][j]);
             if(a[i][j]) {
                 ptt(i, j, a[i][j], 1);
                 cnt++;
