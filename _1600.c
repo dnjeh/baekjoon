@@ -5,7 +5,7 @@ void qput(int t, int tt, int ttt) {
     q[ind][0]=t; q[ind][1]=tt; q[ind++][2]=ttt;
     vis[ttt][t][tt]=1;
 }
-int chk(int x, int y, int s) {
+int chk(int y, int x, int s) {
     if(x>=0&&x<m&&y>=0&&y<n&&!vis[s][y][x]&&!a[y][x]) return 1;
     else return 0;
 }
@@ -23,18 +23,20 @@ int main() {
             y=q[i][0]; x=q[i][1]; s=q[i][2];
             if(y==n-1&&x==m-1) f=1;
             else {
-                if(y+1<n&&!vis[s][y+1][x]&&((!a[y+1][x])||s>0)) {
-                    qput(y+1, x, !a[y+1][x]?s:s-1);
+                if(s>0) {
+                    if(chk(y+1, x-2, s-1)) qput(y+1, x-2, s-1);    
+                    if(chk(y+2, x-1, s-1)) qput(y+2, x-1, s-1);    
+                    if(chk(y+2, x+1, s-1)) qput(y+2, x+1, s-1);    
+                    if(chk(y+1, x+2, s-1)) qput(y+1, x+2, s-1);    
+                    if(chk(y-1, x+2, s-1)) qput(y-1, x+2, s-1);    
+                    if(chk(y-2, x+1, s-1)) qput(y-2, x+1, s-1);    
+                    if(chk(y-2, x-1, s-1)) qput(y-2, x-1, s-1);    
+                    if(chk(y-1, x-2, s-1)) qput(y-1, x-2, s-1);    
                 }
-                if(y-1>=0&&!vis[s][y-1][x]&&((!a[y-1][x])||s>0)) {
-                    qput(y-1, x, !a[y-1][x]?s:s-1);
-                }
-                if(x+1<m&&!vis[s][y][x+1]&&((!a[y][x+1])||s>0)) {
-                    qput(y, x+1, !a[y][x+1]?s:s-1);
-                }
-                if(x-1>=0&&!vis[s][y][x-1]&&((!a[y][x-1])||s>0)) {
-                    qput(y, x-1, !a[y][x-1]?s:s-1);
-                }
+                if(chk(y+1, x, s)) qput(y+1, x, s);
+                if(chk(y-1, x, s)) qput(y-1, x, s);
+                if(chk(y, x+1, s)) qput(y, x+1, s);
+                if(chk(y, x-1, s)) qput(y, x-1, s);
             }
         }   
     }
