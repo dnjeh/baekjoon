@@ -10,7 +10,7 @@ void flod() {
     }
 }
 int main() {
-    int i, j, t1, t2, t3;
+    int i, j, t1, t2, t3, max, tmax;
     scanf("%d %d %d", &n, &m, &r);
     for(i=0;i<n;i++) {
         scanf("%d", &a[i]);
@@ -27,8 +27,12 @@ int main() {
     }
     flod();
     for(i=0;i<n;i++) {
+        tmax=a[i];
         for(j=0;j<n;j++) {
-            printf("%d%c", i!=j?mon[i][j]:0, j+1==n?'\n':' ');
+            if(i==j) continue;
+            if(mon[i][j]<=m) tmax+=a[j];
         }
+        if(!i||tmax>max) max=tmax;
     }
+    printf("%d", max);
 }
