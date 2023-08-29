@@ -30,7 +30,7 @@ int main() {
         tmax=a[i];
         for(j=0;j<n;j++) {
             if(i==j) continue;
-            if(mon[i][j]<=m) tmax+=a[j];
+            if(mon[i][j]&&mon[i][j]<=m) tmax+=a[j];
         }
         if(!i||tmax>max) max=tmax;
     }
