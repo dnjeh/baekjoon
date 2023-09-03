@@ -1,11 +1,24 @@
 #include <stdio.h>
-int T, n, a[100001], vis[100001], now;
+int T, n, a[100001], vis[100001], now, ans, f;
 int dfs(int t) {
-    
+    int ret=0;
+    if(ret==t&&f) ret=0;
+    if(!vis[t]) {
+        vis[t]=now;
+        ret=dfs(a[t]);
+    }
+    else if(vis[t]==now&&!f) {
+        ret=t;
+        f=1;
+    }
+    if(!ret) {
+        ans++;
+    }
+    return ret;
 }
 void set();
 int main() {
-    int i, j, ans;
+    int i, j;
     scanf("%d", &T);
     for(i=0;i<T;i++) {
         ans=0;
@@ -16,10 +29,11 @@ int main() {
         }
         for(j=1;j<=n;j++) {
             if(!vis[j]) {
-                now++;
-                ans+=dfs(j);
+                f=0; now++;
+                dfs(j);
             }
         }
+        printf("%d\n", ans);
     }
 }
 void set() {
