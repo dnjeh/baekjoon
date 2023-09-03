@@ -1,20 +1,19 @@
 #include <stdio.h>
-int T, n, a[100001], vis[100001], now, ans, f;
+int T, n, a[100001], vis[100001], now, ans;
 int dfs(int t) {
-    int ret=0;
-    if(ret==t&&f) ret=0;
+    int tt=0;
     if(!vis[t]) {
         vis[t]=now;
-        ret=dfs(a[t]);
+        tt=dfs(a[t]);
     }
-    else if(vis[t]==now&&!f) {
-        ret=t;
-        f=1;
+    else if(vis[t]==now) {
+        return t;
     }
-    if(!ret) {
-        ans++;
-    }
-    return ret;
+    else return 0;
+
+    if(!tt) ans++;
+    if(tt!=t) return tt;
+    else return 0;
 }
 void set();
 int main() {
@@ -29,7 +28,7 @@ int main() {
         }
         for(j=1;j<=n;j++) {
             if(!vis[j]) {
-                f=0; now++;
+                now++;
                 dfs(j);
             }
         }
