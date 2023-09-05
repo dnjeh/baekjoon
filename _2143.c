@@ -11,11 +11,27 @@ void mergeSort(int arr[], int left, int right) {
         merge(arr, left, middle, right);
     }
 }
-int bs(int start, int end) {
-    
+int etoe(int sta) {
+    int ret=1, i;
+    for(i=sta-1;i>=0&&s[1][sta]==s[1][i];i--) {
+        ret++;
+    }
+    for(i=sta+1;i<n[1]&&s[1][sta]==s[1][i];i++) {
+        ret++;
+    }
+    return ret;
+}
+int bs(int end) {
+    int up, dwn, mid, ret=-1;
+    for(up=n[1]-1, dwn=0, mid=(dwn+up)/2;dwn<=up;mid=(dwn+up)/2) {
+        if(s[1][mid]==end) break;
+        else if(s[1][mid]<t) dwn=mid+1;
+        else up=mid-1;
+    }
+    return ret==-1?0:etoe(mid);
 }
 int main() {
-    int i, j, jj, tt, cnt=0, lim;
+    int i, j, jj, tt, cnt=0;
     scanf("%d", &t);
     for(i=0;i<2;i++) {
         scanf("%d", &n[i]);
@@ -23,15 +39,15 @@ int main() {
             scanf("%d", &tt);
             s[i][j]+=tt+(j?s[i][j-1]:0);
         }
-        for(j=0;j<n;j++) {
-            for(jj=0;jj<n;jj++) {
+        for(j=0;j<n[i];j++) {
+            for(jj=0;jj<n[i];jj++) {
                 ss[i][ind[i]++]=s[i][jj]-(j?s[i][j-1]:0);
             }
         }
-        mergeSort(ss[i], 0, n[i]*(n[i]+1)/2-1);
-    } lim=n[0]*(n[0]+1)/2;
-    for(i=0;i<lim;i++) {
-        cnt+=bs(ss[0][i], t-ss[0][i]);
+        if(i==1) mergeSort(ss[i], 0, n[i]*(n[i]+1)/2-1);
+    } 
+    for(i=0;i<ind[i];i++) {
+        cnt+=bs(t-ss[0][i]);
     }
     printf("%d", cnt);
 }
