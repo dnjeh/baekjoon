@@ -1,5 +1,5 @@
 #include <stdio.h>
-int s[2][1000];
+int s[2][1000], ss[2][500050], ind[2];
 int n[2], t;
 int abs(int t) { return t<0?t*-1:t; }
 void merge(int arr[], int left, int middle, int right);
@@ -15,18 +15,23 @@ int bs(int start, int end) {
     
 }
 int main() {
-    int i, j, tt, cnt=0;
+    int i, j, jj, tt, cnt=0, lim;
     scanf("%d", &t);
     for(i=0;i<2;i++) {
         scanf("%d", &n[i]);
         for(j=0;j<n[i];j++) {
             scanf("%d", &tt);
-            s[i][j]+=tt+j?s[i][j-1]:0;
+            s[i][j]+=tt+(j?s[i][j-1]:0);
         }
-        mergeSort(s[i], 0, n[i]-1);
-    }   
-    for(i=0;i<n[0];i++) {
-        cnt+=bs(s[0][i], t-s[0][i]);
+        for(j=0;j<n;j++) {
+            for(jj=0;jj<n;jj++) {
+                ss[i][ind[i]++]=s[i][jj]-(j?s[i][j-1]:0);
+            }
+        }
+        mergeSort(ss[i], 0, n[i]*(n[i]+1)/2-1);
+    } lim=n[0]*(n[0]+1)/2;
+    for(i=0;i<lim;i++) {
+        cnt+=bs(ss[0][i], t-ss[0][i]);
     }
     printf("%d", cnt);
 }
