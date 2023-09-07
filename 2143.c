@@ -10,28 +10,23 @@ void mergeSort(int arr[], int left, int right) {
         merge(arr, left, middle, right);
     }
 }
-long long int etoe(int sta) {
-    long long int ret=1;
-    int i, to=ss[1][sta];
-    for(i=sta-1;i>=0&&to==ss[1][i];i--) {
-        ret++;
+long long int ubs(int end) {
+    long long int up, dwn, mid;
+    up=ind[1]; dwn=0;
+    for(mid=(dwn+up)/2;dwn<up;mid=(dwn+up)/2) {
+        if(ss[1][mid]<=end) dwn=mid+1;
+        else up=mid;
     }
-    for(i=sta+1;i<ind[1]&&to==ss[1][i];i++) {
-        ret++;
-    }
-    return ret;
+    return up;
 }
-long long int bs(int end) {
-    int up, dwn, mid;
-    up=ind[1]-1; dwn=0;
-    for(mid=(dwn+up)/2;dwn<=up;mid=(dwn+up)/2) {
-        if(ss[1][mid]==end) {
-            return etoe(mid);
-        }
-        else if(ss[1][mid]<end) dwn=mid+1;
-        else up=mid-1;
+long long int lbs(int end) {
+    long long int up, dwn, mid;
+    up=ind[1]; dwn=0;
+    for(mid=(dwn+up)/2;dwn<up;mid=(dwn+up)/2) {
+        if(ss[1][mid]<end) dwn=mid+1;
+        else up=mid;
     }
-    return 0;
+    return up;
 }
 int main() {
     long long int i, j, jj, tt, cnt=0;
@@ -50,7 +45,7 @@ int main() {
     }
     mergeSort(ss[1], 0, ind[1]-1);
     for(i=0;i<ind[0];i++) {
-        cnt+=bs(t-ss[0][i]);
+        cnt+=ubs(t-ss[0][i])-lbs(t-ss[0][i]);
     }
     printf("%lld", cnt);
 }
