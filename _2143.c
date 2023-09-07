@@ -1,5 +1,5 @@
 #include <stdio.h>
-int s[2][1010], ss[2][500100], ind[2];
+int s[2][1010], ss[2][505000], ind[2];
 int n[2], t;
 void merge(int arr[], int left, int middle, int right);
 void mergeSort(int arr[], int left, int right) {
@@ -11,7 +11,8 @@ void mergeSort(int arr[], int left, int right) {
     }
 }
 long long int etoe(int sta) {
-    long long int ret=1, i, to=ss[1][sta];
+    long long int ret=1;
+    int i, to=ss[1][sta];
     for(i=sta-1;i>=0&&to==ss[1][i];i--) {
         ret++;
     }
@@ -22,7 +23,8 @@ long long int etoe(int sta) {
 }
 long long int bs(int end) {
     int up, dwn, mid;
-    for(up=ind[1]-1, dwn=0, mid=(dwn+up)/2;dwn<=up;mid=(dwn+up)/2) {
+    up=ind[1]-1; dwn=0;
+    for(mid=(dwn+up)/2;dwn<=up;mid=(dwn+up)/2) {
         if(ss[1][mid]==end) {
             return etoe(mid);
         }
@@ -45,8 +47,8 @@ int main() {
                 ss[i][ind[i]++]=s[i][jj]-(j?s[i][j-1]:0);
             }
         }
-        if(i==1) mergeSort(ss[i], 0, ind[i]-1);
     }
+    mergeSort(ss[1], 0, ind[1]-1);
     for(i=0;i<ind[0];i++) {
         cnt+=bs(t-ss[0][i]);
     }
