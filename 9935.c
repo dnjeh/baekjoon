@@ -1,53 +1,29 @@
 #include <stdio.h>
 #include <string.h>
-char a[1000011], b[40];
-int fcnt, bcnt, cnt=0;
-void printa(int t) {
-    for(int i=0;i<fcnt;i++) {
-        printf("%c", t==i?'^':!a[i]?' ':a[i]);
+char a[1000001], b[37], sta[1000001]; 
+int bind, sind;
+int strcmpp(char com[]) {
+    int i;
+    for(i=0;i<bind;i++) {
+        if(!com[i]||com[i]!=b[i]) return 0;
     }
-    printf("\n");
-}
-int strdel(int sta, int siz) {
-    int i, j;
-    for(i=sta, j=0;j<siz&&i>=0;i--) {
-        if(a[i]) {
-            a[i]=0;
-            j++;
-        }
-    }
-    return i;
-}
-int fly(int sta, int siz) {
-    int i, j;
-    for(i=sta, j=0;i>=0&&j<siz;i--) {
-        if(a[i]) {
-            j++;
-        }
-    }
-    return i+1;
+    return 1;
 }
 int main() {
-    int i, j;
-    scanf("%s %s", a, b);
-    fcnt=strlen(a); bcnt=strlen(b);
-    for(i=j=0;i<=fcnt&&cnt<fcnt;i++) if(a[i]||i==fcnt) {
-        //printa(i);
-        if(!b[j]) {
-            i=strdel(i-1, bcnt);
-            i=fly(i, bcnt);
-            cnt+=bcnt;
-            if(i<=0) i=-1;
-            j=0;
-        }
-        else if(a[i]==b[j]) j++;
-        else { 
-            j=0; 
-            if(a[i]==b[j]) j++;
+    int i; 
+    char cmp;
+    scanf("%s", a);
+    scanf("%s", b);
+    bind=strlen(b);
+    cmp=b[bind-1];
+    for(i=0;a[i];i++) {
+        sta[sind++]=a[i];
+        if(a[i]==cmp&&sind>=bind&&strcmpp(&sta[sind-bind])) {
+            sind-=bind;
         }
     }
-        for(i=0;i<fcnt;i++) {
-            if(a[i]) printf("%c", a[i]);
-        }
-        printf("\n");
+    for(i=0;i<sind;i++) {
+        printf("%c", sta[i]);
+    }
+    if(!i) printf("FRULA"); 
 }
