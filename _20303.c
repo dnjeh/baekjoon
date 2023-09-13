@@ -1,5 +1,5 @@
 #include <stdio.h>
-int a[3][30101], aa[2][30100], mem[3010][30100], q[30300];
+int a[3][30101], aa[2][30100], mem[30100][3010], q[30300];
 int n, m, k, aaind; //학생 수, 경로 수, 최대 무게
 void cha(int* a, int* b) { //change
     int t;
