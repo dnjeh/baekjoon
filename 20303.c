@@ -10,9 +10,9 @@ void cha(int* a, int* b) { //change
 int max(int a, int b) { return a>b?a:b; }
 int dp() { //backsnap
     int i, j;
-    for(i=0;i<=aaind;i++) {
-        for(j=k;j-aa[0][i]>=0;j--) {
-            mem[j]=max(mem[j], mem[j-aa[0][i]]+aa[1][i]);
+    for(i=0;i<=aaind;i++) { //집합 만큼 반복
+        for(j=k;j-aa[0][i]>=0;j--) { //최대 한계부터, 원래의 가방에 넣을 수 있는 미래까지 반복
+            mem[j]=max(mem[j], mem[j-aa[0][i]]+aa[1][i]); //원래 있는 것 vs 원래의 가방에 이것만 넣는 것
         }
     }
     return mem[k];
