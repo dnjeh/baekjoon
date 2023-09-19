@@ -20,7 +20,7 @@ void printa() {
     printf("---------\n");
 }
 int main() {
-    int i, j, tmax, nx, ny, d, f=1;
+    int i, j, tmax=0, nx, ny, d, f=1;
     char t[11];
     for(i=0;i<10;i++) {
         scanf("%s", t);
@@ -59,8 +59,8 @@ int main() {
                     tmax=b[i][j];
                     ny=i;
                     nx=j;
-                    if(b[i][j]) f=0;
                 }
+                if(!a[i][j]) f=0;
             }
         }
     }
