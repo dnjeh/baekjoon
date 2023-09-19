@@ -31,17 +31,17 @@ int main() {
             }
         }
     }
-    for(i=0;i<10;i++) {
+    for(tmax=i=0;i<10;i++) {
         for(j=0;j<10;j++) {
             b[i][j]=updt(i, j);
             if(b[i][j]>tmax) {
                 tmax=b[i][j];
-                nx=i;
-                ny=j;
+                ny=i;
+                nx=j;
             }
         }
     }
-    for(;cnt<100&&!f;cnt++) {
+    for(cnt=0;cnt<100&&!f;cnt++) {
         vis[ny][nx]=1;
         for(d=-1;d<=1;d++) {
             if(ny+d>=0&&ny+d<10) a[ny+d][nx]=!a[ny+d][nx];
@@ -60,7 +60,7 @@ int main() {
                     ny=i;
                     nx=j;
                 }
-                if(!a[i][j]) f=0;
+                if(a[i][j]) f=0;
             }
         }
     }
