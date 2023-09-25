@@ -40,22 +40,27 @@ long long int lbs(long long int end) {
     }
     return up;
 }
-void dfs(int to, int from) {
+void dfs(long long int to, long long int from) {
+    //printf("%lld %lld\n", to, from);
     if(from>=0) ans[to]=from;
-    int sta=lbs(to*1000000), end=lbs(to*1000000);
+    long long int i, sta=lbs(to*1000000), end=lbs((to+1)*1000000);
+    for(i=sta;i<end;i++) {
+        if(a[i]%1000000LL!=from) dfs(a[i]%1000000LL, to);
+    }
 }
 int main() {
-    int i, t, tt;
+    int i;
+    long long int t, tt;
     scanf("%d", &n);
-    for(i=0;i<n;i++) {
-        scanf("%d %d", &t, &tt);
+    for(i=1;i<n;i++) {
+        scanf("%lld %lld", &t, &tt);
         t--; tt--;
-        a[ind++]=t*1000000+tt;
-        a[ind++]=tt*1000000+t;
+        a[ind++]=t*1000000LL+tt;
+        a[ind++]=tt*1000000LL+t;
     }
     mergeSort(a, 0, ind-1);
-    dfs(0, -1);
+    dfs(0, 0);
     for(i=1;i<n;i++) {
-        printf("%lld\n", ans[i]);
+        printf("%lld\n", ans[i]+1);
     }
 }
