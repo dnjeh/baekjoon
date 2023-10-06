@@ -53,7 +53,7 @@ int main() {
     for(i=0;i<=0b1111111111;i++) {
         set();
         it=fun(i);
-        if(i==1||it<min) {
+        if(i==0||it<min) {
             min=it;
         }
     }
