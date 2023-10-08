@@ -1,8 +1,10 @@
 #include <stdio.h>
-int min[1000001], minq[1000100], minc=0, ista=0;
-int max[1000001], maxq[1000100], maxc=0, asta=0;
-void iminput(int n) {
-    int _i, _t, f;
+#define END 9223372036854775807
+long long int min[1000001], minc=0;
+long long int max[1000001], maxc=0;
+long long int eis[1000001];
+void iminput(long long int n) {
+    long long int _i, _t, f;
     min[++minc]=n;
     f=minc;
     for(_i=minc/2;_i>=1;_i/=2) {
@@ -15,9 +17,9 @@ void iminput(int n) {
         f=_i;        
     }
 }
-int ominput() {
-    int _fin, _i, _t;
-    if(!minc) _fin=0;
+long long int ominput() {
+    long long int _fin, _i, _t;
+    if(!minc) _fin=END;
     else {
         _fin=min[1];
         min[1]=min[minc];
@@ -34,8 +36,8 @@ int ominput() {
     }
     return _fin;
 }
-void imaxput(int n) {
-    int _i, _t, f;
+void imaxput(long long int n) {
+    long long int _i, _t, f;
     max[++maxc]=n;
     f=maxc;
     for(_i=maxc/2;_i>=1;_i/=2) {
@@ -48,9 +50,9 @@ void imaxput(int n) {
         f=_i;        
     }
 }
-int omaxput() {
-    int _fin, _i, _t;
-    if(!maxc) _fin=0;
+long long int omaxput() {
+    long long int _fin, _i, _t;
+    if(!maxc) _fin=END;
     else {
         _fin=max[1];
         max[1]=max[maxc];
@@ -69,38 +71,39 @@ int omaxput() {
 }
 int main() {
     char m;
-    int n, t, i, j, T, tt;
-    scanf("%d", &T);
-    for(i=0;i<T;i++) {
-        ista=asta=maxc=minc=0;
-        scanf("%d", &n);
-        for(j=0;j<n;j++) {
-            scanf("%c %d", &m, &t);
+    long long int n, t, i, j, T, tt, mmiu, mmax;
+    scanf("%lld\n", &T);
+    for(i=1;i<=T;i++) {
+        maxc=minc=0;
+        scanf("%lld\n", &n);
+        for(j=1;j<=n;j++) {
+            scanf("%c %lld\n", &m, &t);
             if(m=='I') {
-                iminput(t);
-                imaxput(t);
+                iminput(t*10000000+j);
+                imaxput(t*10000000+j);
             }
             else {
                 if(t==-1&&minc>0) {
-                    while(ista>0&&(tt=ominput())==minq[ista-1]) {
-                        ista--;
+                    for(tt=ominput();tt!=END||eis[tt%10000000]==i;tt=ominput()) { 
+                        printf("%lld\n", tt);
                     }
-                    maxq[asta++]=tt;
+                    if(tt!=END) eis[tt%10000000]=i;
                 }
                 else if(maxc>0) {
-                    while(asta>0&&(tt=omaxput())==maxq[asta-1]) {
-                        asta--;
+                    for(tt=omaxput();tt!=END||eis[tt%10000000]==i;tt=omaxput()) { 
+                        printf("%lld\n", tt);
                     }
-                    minq[ista++]=tt;
+                    if(tt!=END) eis[tt%10000000]=i;
                 }
             }
         }
-        while(ista>0&&(tt=ominput())==minq[ista-1]) {
-            ista--;
-        }
-        while(asta>0&&(tt=omaxput())==maxq[asta-1]) {
-            asta--;
-        }
-        
+        for(mmiu=ominput();tt!=END||eis[mmiu%10000000]==i;mmiu=ominput()) { }
+        if(mmiu!=END) eis[mmiu%10000000]=i;
+        for(mmax=ominput();tt!=END||eis[mmax%10000000]==i;mmax=ominput()) { }
+        if(mmax!=END) eis[mmax%10000000]=i;
+        if(mmiu==END&&mmax==END) printf("EMPTY\n");
+        else if(mmiu!=END||mmax!=END) printf("%lld %lld\n"
+        , mmiu==END?mmax/10000000:mmiu/10000000, mmiu==END?mmax/10000000:mmiu/10000000);
+        else printf("%lld %lld\n", mmax/10000000, mmiu/10000000);
     }
 }
