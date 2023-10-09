@@ -1,6 +1,8 @@
 #include <stdio.h>
-long long int p[300000];
-int d[20001], vis[20001];
+#define END 9223372036854775807
+long long int min[1000001], minc=0;
+long long int p[300010];
+long long int d[20001], vis[20001];
 long long int n, sta, end, now, ind;
 void set();
 void merge(long long int arr[], int left, int middle, int right) {
@@ -24,6 +26,42 @@ void mergeSort(long long int arr[], int left, int right) {
         mergeSort(arr, middle + 1, right);
         merge(arr, left, middle, right);
     }
+}
+void iminput(long long int n) {
+    long long int _i, _t, f;
+    min[++minc]=n;
+    f=minc;
+    for(_i=minc/2;_i>=1;_i/=2) {
+        if(min[f]<min[_i]) {
+            _t=min[_i];
+            min[_i]=min[f];
+            min[f]=_t;
+        }
+        else break;
+        f=_i;        
+    }
+}
+long long int ominput() {
+    long long int _fin, _i, _t;
+    do {
+        if(!minc) _fin=END;
+        else {
+            _fin=min[1];
+            min[1]=min[minc];
+            min[minc--]=0;
+            for(_i=2;_i<=minc;_i*=2) {
+                if(min[_i/2]>min[_i]||(min[_i/2]>min[_i+1]&&(_i+1<=minc))) {
+                    _t=min[_i/2];
+                    min[_i/2]=min[_i]<min[_i+1]||_i+1>minc?min[_i]:min[_i+1];
+                    if(min[_i]<min[_i+1]||_i+1>minc) min[_i]=_t;
+                    else min[++_i]=_t;
+                }
+                else break;
+            }
+        }
+    } while(_fin!=END&&vis[_fin%100000]==1);
+    if(_fin!=END) vis[_fin%100000]=1;
+    return _fin;
 }
 long long int ubs(long long int end) {
     long long int up, dwn, mid;
@@ -51,34 +89,31 @@ int main() {
     for(i=0;i<m;i++) {
         for(j=0;j<3;j++) scanf("%lld", &t[j]);
         p[ind++]=t[0]*10000000+t[1]*100+t[2];
-        p[ind++]=t[1]*10000000+t[0]*100+t[2];
     }
     mergeSort(p, 0, ind-1);
     d[sta]=0;
-    for(now=sta;f;now=min[0]) {
-        long long int tsta=(int)lbs(now*10000000), tend=(int)lbs((now+1)*10000000);
+    for(now=sta;f;) {
+        long long int tsta=lbs(now*10000000), tend=lbs((now+1)*10000000);
         for(i=tsta;i<tend;i++) {
             if((d[now]+p[i]%100<d[p[i]/100%100000])||d[p[i]/100%100000]==-1) {
                 d[p[i]/100%100000]=d[now]+p[i]%100;
+                iminput(d[p[i]/100%100000]*100000+p[i]/100%100000);
             }
         }
-        vis[now]=1; 
-        for(f=0, i=1;i<=n;i++) {
-            if(!vis[i]&&d[i]!=-1&&(!f||min[1]>d[i])) {
-                min[0]=i;
-                min[1]=d[i];
-                f=1;
-            }
+        vis[now]=1; f=0;
+        now=ominput();
+        if(now!=END) {
+            f=1;
+            now%=100000;
         }
     }
     for(i=1;i<=n;i++) {
         if(d[i]!=-1) printf("%lld\n", d[i]);
         else printf("INF\n");
     }
-    for(;;) {}
 }
 
 void set() {
-    int i, j;
-    for(i=0;i<20000;i++) d[i]=-1; 
+    long long int i, j;
+    for(i=0;i<=20000;i++) d[i]=-1; 
 }
