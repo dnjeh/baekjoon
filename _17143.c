@@ -1,17 +1,30 @@
 #include <stdio.h>
-const toLoc[] = {0, 2, 1, 4, 3};
+const int toLoc[] = {0, 2, 1, 4, 3};
 int a[3][101][101], shark[6][10000], willbe; //y, x, 속력, 이동방향, 크기, 사망여부 // 잡아먹힐 상어 인덱스
 int r, c, m, now, ans;
+void printa() {
+    int i, j;
+    printf("---------------------------\n");
+    for(i=0;i<r;i++) {
+        for(j=0;j<c;j++) {
+            printf("%d ", a[0][i][j]==now?a[1][i][j]:0);
+        }
+        printf("\n");
+    }
+    printf("---------------------------\n");
+}
 int getLoc(int t) {
-    int i, y=shark[0][t], x=shark[1][t], loc=shark[3][t], spd=shark[2][t], oloc; oloc=loc;
+    int i, y=shark[0][t], x=shark[1][t], loc=shark[3][t], spd=shark[2][t], f;
     int *_t=NULL, *_tt=NULL;
     if(loc==1) {
         loc=2;
         y=r+1-y;
+        f=1;
     }
     else if(loc==4) {
         loc=3;
         x=c+1-x;
+        f=1;
     }
     if(loc==2) {
         _t=&r; _tt=&y;
@@ -21,17 +34,18 @@ int getLoc(int t) {
     }
     //이 이후의 _t, _tt 앞엔 * 붙여주기!
     spd%=(*_t-1)*2;
-    switch((spd+*_tt)/(*_t)) {
-        case 0:
-            *_tt+=spd;
-        case 1: 
-            loc=toLoc[loc];
-            *_tt=
-            break;
-    
+    if(spd+*_tt<=*_t) {
+        *_tt+=spd;
     }
-    if(oloc!=loc) {
-        _tt=_t+1-_tt;
+    else if(spd+*_tt<=(*_t)*2-1) {
+        loc=toLoc[loc];
+        *_tt=*_t-(spd+*_tt-*_t);
+    }
+    else {
+        *_tt=spd+*_tt-(*_t*2)-1;
+    }
+    if(f) {
+        *_tt=*_t+1-*_tt;
         loc=toLoc[loc];
     }
     return y*10000+x*10+loc;
@@ -58,17 +72,21 @@ void sharkMove() {
     }
 }
 int main() {
-    int i, j;
+    int i, j, f=0;
     scanf("%d %d %d", &r, &c, &m);
     for(i=0;i<m;i++) {
         for(j=0;j<5;j++) {
             scanf("%d", &shark[j][i]);
+            if(shark[1][i]==1&&(!f||shark[0][willbe]>=shark[0][i])) {
+                f=1;
+            }
         }
     }
-    for(now=1;now<=c;now++) {
-        sharkMove();
+    for(now=2;now<=c+1;now++) {
+        printa();
         ans+=shark[4][willbe];
         shark[5][willbe]=1;
+        sharkMove();
     }
     printf("%d", ans);
 }
