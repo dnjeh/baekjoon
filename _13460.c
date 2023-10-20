@@ -1,7 +1,8 @@
 #include <stdio.h>
-int n, m, a[10][10], q[4][100000], vis[10][10][10][10], qind;
+int n, m, a[10][10], q[4][300000], vis[10][10][10][10], qind;
 int hole[2];
 void qput(int ry, int rx, int by, int bx) {
+    vis[ry][rx][by][bx]=1;
     q[0][qind]=ry;
     q[1][qind]=rx;
     q[2][qind]=by;
@@ -39,7 +40,10 @@ int main() {
     for(now=0;!f&&now<=10;now++) {
         for(ind=qind;!f&&i<ind;i++) {
             ry=q[0][i]; rx=q[1][i]; by=q[2][i]; bx=q[3][i];
-            if(ry==-1&&rx==-1) {
+            if(by==-1&&bx==-1) {
+                f=1;
+            }
+            else if(ry==-1&&rx==-1) {
                 ans=now;
                 f=1;
             }
