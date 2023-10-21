@@ -1,6 +1,5 @@
 #include <stdio.h>
-int n, m, a[10][10], q[4][300000], vis[10][10][10][10], qind=1;
-int hole[2];
+int n, m, a[10][10], q[4][100000], vis[10][10][10][10], qind=1;
 void qput(int ry, int rx, int by, int bx) {
     vis[ry][rx][by][bx]=1;
     q[0][qind]=ry;
@@ -24,7 +23,7 @@ int main() {
     int i, j, ind, ans=-1, f=0, now;
     int ry, rx, by, bx, _rx, _ry, _bx, _by;
     int dy, dx;
-    char t[11];
+    char t[15];
     scanf("%d %d\n", &n, &m);
     for(i=0;i<n;i++) {
         scanf("%s", t);
@@ -50,7 +49,7 @@ int main() {
     i=0;
     for(now=0;!f&&now<=10;now++) {
         for(ind=qind;!f&&i<ind;i++) {
-            printa(i);
+            //printa(i);
             ry=q[0][i]; rx=q[1][i]; by=q[2][i]; bx=q[3][i];
             if(by==-1&&bx==-1) {
                 continue;
@@ -87,10 +86,10 @@ int main() {
                         }
                     }
                     if(_rx!=-1&&(_rx==_bx&&_ry==_by)) {
-                        if(((dy&&by-ry<dy)||(dx&&bx-rx<dx))) {_ry-=dy; _rx-=dx; }
+                        if((dy==1&&by-ry>0)||(dy==-1&&by-ry<0)||(dx==1&&bx-rx>0)||(dx==-1&&bx-rx<0)) {_ry-=dy; _rx-=dx; }
                         else { _by-=dy; _bx-=dx; }
                     }
-                    qput(_ry, _rx, _by, _bx);
+                    if(!vis[_ry][_rx][_by][_bx]) qput(_ry, _rx, _by, _bx);
                 } 
             }
         }
