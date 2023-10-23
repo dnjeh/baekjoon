@@ -1,7 +1,7 @@
 #include <stdio.h>
 int n, m, a[10][10], q[4][100000], vis[10][10][10][10], qind=1;
 void qput(int ry, int rx, int by, int bx) {
-    vis[ry][rx][by][bx]=1;
+    if(ry!=-1&&rx!=-1&&by!=-1&&bx!=-1) vis[ry][rx][by][bx]=1;
     q[0][qind]=ry;
     q[1][qind]=rx;
     q[2][qind]=by;
@@ -46,10 +46,11 @@ int main() {
             }
         }
     }
+    vis[q[0][0]][q[1][0]][q[2][0]][q[3][0]]=1;
     i=0;
     for(now=0;!f&&now<=10;now++) {
         for(ind=qind;!f&&i<ind;i++) {
-            //printa(i);
+            printa(i);
             ry=q[0][i]; rx=q[1][i]; by=q[2][i]; bx=q[3][i];
             if(by==-1&&bx==-1) {
                 continue;
@@ -60,7 +61,7 @@ int main() {
             }
             else if(now<10) {
                 for(j=0;j<4;j++) {
-                    dx=j/2?0:j%2?-1:1; dy=j/2?j%2?-1:1:0;
+                    dx=j/2?0:(j%2?-1:1); dy=j/2?(j%2?-1:1):0;
                     for(_rx=rx, _ry=ry;_rx>=0&&_rx<m&&_ry>=0&&_ry<n;_rx+=dx, _ry+=dy) {
                         if(a[_ry][_rx]==1) {
                             _rx-=dx;
