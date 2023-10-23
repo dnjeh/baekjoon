@@ -50,7 +50,7 @@ int main() {
     i=0;
     for(now=0;!f&&now<=10;now++) {
         for(ind=qind;!f&&i<ind;i++) {
-            printa(i);
+            //printa(i);
             ry=q[0][i]; rx=q[1][i]; by=q[2][i]; bx=q[3][i];
             if(by==-1&&bx==-1) {
                 continue;
@@ -90,7 +90,7 @@ int main() {
                         if((dy==1&&by-ry>0)||(dy==-1&&by-ry<0)||(dx==1&&bx-rx>0)||(dx==-1&&bx-rx<0)) {_ry-=dy; _rx-=dx; }
                         else { _by-=dy; _bx-=dx; }
                     }
-                    if(!vis[_ry][_rx][_by][_bx]) qput(_ry, _rx, _by, _bx);
+                    if(_ry==-1||_rx==-1||_bx==-1||_by==-1||!vis[_ry][_rx][_by][_bx]) qput(_ry, _rx, _by, _bx);
                 } 
             }
         }
