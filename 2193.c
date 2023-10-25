@@ -1,11 +1,11 @@
 #include <stdio.h>
-int mem[2][91] = {{0,0}, {0, 1} };
-int dp(int tt, int t) {
-    int ret=0;
+long long int mem[2][91] = {{0,0}, {0, 1} };
+long long int dp(int tt, int t) {
+    long long int ret=0;
     if(mem[tt][t]!=-1) ret=mem[tt][t];
     else {
-        ret=mem[(tt+1)%2][t-1]+1;
-        if(!tt) ret+=mem[tt][t]+1;
+        ret=dp(0, t-1);
+        if(!tt) ret+=dp(1, t-1);
         mem[tt][t]=ret;
     }
     return ret;
@@ -15,7 +15,7 @@ int main() {
     int n;
     scanf("%d", &n);
     set();
-    printf("%d", dp(0, n)+dp(1, n));
+    printf("%lld", dp(0, n)+dp(1, n));
 }
 void set() {
     int i;
