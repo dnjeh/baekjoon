@@ -1,0 +1,122 @@
+#include <stdio.h>
+int n, m, a[10][10], q[6][100000], vis[10][10][10][10], qind=1;
+void qput(int ry, int rx, int by, int bx, int to, int pos) {
+    if(ry!=-1&&rx!=-1&&by!=-1&&bx!=-1) vis[ry][rx][by][bx]=1;
+    q[0][qind]=ry;
+    q[1][qind]=rx;
+    q[2][qind]=by;
+    q[3][qind]=bx;
+    q[4][qind]=to;
+    q[5][qind]=pos;
+    qind++;
+}
+char loc(int t) {
+    switch(t) {
+    case 1:
+        return 'R';    
+        break;
+    case -1:
+        return 'L';
+        break;
+    case -10:
+        return 'U';
+        break;
+    case 10:
+        return 'D';
+        break;
+    }
+}
+void fun(int t) {
+    if(q[4][t]) fun(q[4][t]);
+    printf("%c", loc(q[5][t]));
+}
+void printa(int t) {
+    int i, j;
+    printf("\n---------\n");
+    for(i=0;i<n;i++) {
+        for(j=0;j<m;j++) {
+            printf("%c", i==q[0][t]&&j==q[1][t]?'R':i==q[2][t]&&j==q[3][t]?'B':a[i][j]==-1?'O':a[i][j]?'#':' ');
+        }
+        printf("\n");
+    }
+    printf("----------\n");
+}
+int main() {
+    int i, j, ind, ans=-1, f=0, now;
+    int ry, rx, by, bx, to, pos, _rx, _ry, _bx, _by;
+    int dy, dx;
+    char t[15];
+    scanf("%d %d\n", &n, &m);
+    for(i=0;i<n;i++) {
+        scanf("%s", t);
+        for(j=0;j<m;j++) {
+            switch(t[j]) {
+                case '#':
+                    a[i][j]=1;
+                    break;
+                case 'O':
+                    a[i][j]=-1;
+                    break;
+                case 'R':
+                    q[0][0]=i;
+                    q[1][0]=j;
+                    break;
+                case 'B':
+                    q[2][0]=i;
+                    q[3][0]=j;
+                    break;
+            }
+        }
+    }
+    vis[q[0][0]][q[1][0]][q[2][0]][q[3][0]]=1;
+    i=0;
+    for(now=0;!f&&now<=10;now++) {
+        for(ind=qind;!f&&i<ind;i++) {
+            //printa(i);
+            ry=q[0][i]; rx=q[1][i]; by=q[2][i]; bx=q[3][i]; to=q[4][i]; pos=q[5][i];
+            if(by==-1&&bx==-1) {
+                continue;
+            }
+            else if(ry==-1&&rx==-1) {
+                printf("%d\n", now);
+                fun(i);
+                return 0;
+            }
+            else if(now<10) {
+                for(j=0;j<4;j++) {
+                    dx=j/2?0:(j%2?-1:1); dy=j/2?(j%2?-1:1):0;
+                    for(_rx=rx, _ry=ry;_rx>=0&&_rx<m&&_ry>=0&&_ry<n;_rx+=dx, _ry+=dy) {
+                        if(a[_ry][_rx]==1) {
+                            _rx-=dx;
+                            _ry-=dy;
+                            break;
+                        }
+                        else if(a[_ry][_rx]==-1) {
+                            _rx=-1;
+                            _ry=-1;
+                            break;
+                        }
+                    }
+                    for(_bx=bx, _by=by;_bx>=0&&_bx<m&&_by>=0&&_by<n;_bx+=dx, _by+=dy) {
+                        if(a[_by][_bx]==1) {
+                            _bx-=dx;
+                            _by-=dy;
+                            break;
+                        }
+                        else if(a[_by][_bx]==-1) {
+                            _bx=-1;
+                            _by=-1;
+                            break;
+                        }
+                    }
+                    if(_rx!=-1&&(_rx==_bx&&_ry==_by)) {
+                        if((dy==1&&by-ry>0)||(dy==-1&&by-ry<0)||(dx==1&&bx-rx>0)||(dx==-1&&bx-rx<0)) {_ry-=dy; _rx-=dx; }
+                        else { _by-=dy; _bx-=dx; }
+                    }
+                    if(_ry==-1||_rx==-1||_bx==-1||_by==-1||!vis[_ry][_rx][_by][_bx]) qput(_ry, _rx, _by, _bx, i, dy*10+dx);
+                } 
+            }
+        }
+    }
+    printf("%d", ans);
+}
