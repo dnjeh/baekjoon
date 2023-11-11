@@ -9,18 +9,17 @@ int dp(int t, int tt, int ttt) {
     else {
         if(t-1>=0) {
             if(t==9&&ttt&&ttt!=1) ret=(ret+dp(t-1, tt-1, ttt&1))%DIV;
-            else ret=(ret+dp(t-1, tt-1, ttt))%DIV;
+            ret=(ret+dp(t-1, tt-1, ttt))%DIV;
         }
         if(t+1<10) {
             if(!t&&ttt&&ttt!=2) ret=(ret+dp(t+1, tt-1, ttt&2))%DIV;
-            else ret=(ret+dp(t+1, tt-1, ttt))%DIV;
+            ret=(ret+dp(t+1, tt-1, ttt))%DIV;
         }
         ret%=DIV;
         mem[t][tt][ttt]=ret;
     }
     if(ret) {
-        for(int i=0;i<tt;i++) printf("0");
-        printf("%d\n", t);
+        printf("mem[%d][%d][%d]==%d\n",t, tt, ttt, mem[t][tt][ttt]);
     }
     return ret;
 }
