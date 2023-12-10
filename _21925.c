@@ -24,7 +24,7 @@ int main() {
             }
         }
     }
-    printf("%d", tcnt||rcnt?-1:cnt);
+    printf("%d", (tcnt||rcnt)?-1:cnt);
 }
    
    
