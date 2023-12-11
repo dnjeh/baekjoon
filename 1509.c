@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <string.h>
+#define INF 200000000
 char t[2510];
 int a[2500], mem[2500][2500], vis[2500], n, m;
+int memm[2500]={1, };
 void set();
 int dp(int t, int tt) {
     int ret=0;
@@ -19,6 +21,19 @@ int dp(int t, int tt) {
     }
     return ret;
 }
+int dpp(int t) {
+    int ret=INF, _t, i;
+    if(memm[t]) ret=memm[t];
+    else {
+        for(i=0;i<=t;i++) {
+            if(dp(i, t)&&(ret>(i?(_t=dpp(i-1))+1:1))) {
+                ret=i?(_t+1):1;
+            }
+        }
+        memm[t]=ret;
+    } 
+    return ret;
+}
 int main() {
     int i, j, cnt=0, k;
     scanf("%s", t);
@@ -27,17 +42,7 @@ int main() {
     for(i=0;i<n;i++) {
         a[i]=t[i];
     }
-    for(i=n-1;i>=0;i--) {
-        for(j=0;j+i<n;j++) {
-            if(!vis[j]&&!vis[j+i]&&dp(j, j+i)) {
-                for(k=j;k<=j+i;k++) {
-                    vis[k]=1;
-                } 
-                cnt++;
-            }
-        }
-    }
-    printf("%d", cnt);
+    printf("%d", dpp(n-1));
 }
 void set() {
     int i, j;
