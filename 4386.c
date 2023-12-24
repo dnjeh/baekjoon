@@ -1,11 +1,15 @@
 #include <stdio.h>
-int n, m;
-int p[100000], ind;
-void merge(int arr[], int left, int middle, int right) {
+#include <stdlib.h>
+#include <math.h>
+#define FUR 1000
+long long int vis[101], vcnt, pnt[2][101], a[50050], aind;
+int q[30000];
+int v, e;
+void merge(long long int arr[], int left, int middle, int right) {
     int i, j, k;
     int n1 = middle-left+1;
     int n2 = right-middle;
-    int L[n1], R[n2];
+    long long int L[n1], R[n2];
     for(i=0;i<n1;i++) L[i]=arr[left+i];
     for(j=0;j<n2;j++) R[j]=arr[middle+1+j];
     for(i=0,j=0,k=left;i<n1&&j<n2;k++) {
@@ -13,9 +17,9 @@ void merge(int arr[], int left, int middle, int right) {
         else arr[k]=R[j++];
     }
     for(;i<n1;i++,k++) arr[k]=L[i];
-    for(;j<n2;j++,k++) arr[k] = R[j];
+    for(;j<n2;j++,k++) arr[k]=R[j];
 }
-void mergeSort(int arr[], int left, int right) {
+void mergeSort(long long int arr[], int left, int right) {
     if(left<right) {
         int middle = left + (right - left) / 2;
         mergeSort(arr, left, middle);
@@ -23,61 +27,51 @@ void mergeSort(int arr[], int left, int right) {
         merge(arr, left, middle, right);
     }
 }
-int ubs(int end) {
-    int up, dwn, mid;
-    up=ind; dwn=0;
-    for(mid=(dwn+up)/2;dwn<up;mid=(dwn+up)/2) {
-        if(p[mid]<=end) dwn=mid+1;
-        else up=mid;
-    }
-    return up;
-}
-int lbs(int end) {
-    int up, dwn, mid;
-    up=ind; dwn=0;
-    for(mid=(dwn+up)/2;dwn<up;mid=(dwn+up)/2) {
-        if(p[mid]<end) dwn=mid+1;
-        else up=mid;
-    }
-    return up;
-}
-int q[1100], qind, ide[1001];
-int topsort() {
-    int i, j, sta, end;
-    for(i=0;i<qind;i++) {
-        sta=lbs(q[i]*1001), end=lbs((q[i]+1)*1001);
-        for(j=sta;j<end;j++) {
-            ide[p[j]%1001]--;
-            if(!ide[p[j]%1001]) {
-                q[qind++]=p[j]%1001;
-            }
+int find(int t) {
+    int ind=1, i, ret;
+    q[0]=t;
+    for(i=0;i<ind;i++) {
+        if(q[i]!=vis[q[i]]) {
+            q[ind++]=vis[q[i]];
         }
     }
-    if(qind==n) return 0;
-    else return 1;
+    ret=q[i-1];
+    for(i=0;i<ind;i++) vis[q[i]]=ret;
+    return ret;
 }
+void set();
 int main() {
-    int i, j, t, tt, nm;
-    scanf("%d %d", &n, &m);
-    for(i=0;i<m;i++) {
-        scanf("%d", &nm);
-        for(j=0;j<nm;j++) {
-            scanf("%d", &t);
-            if(j) {
-                p[ind++]=tt*1001+t;
-                ide[t]++;
-            }
-            tt=t;
+    long long int i, j, t, tt, ttt, tttt, cnt;
+    double ans=0;
+    scanf("%d", &v);
+    set();
+    for(i=1;i<=v;i++) {
+        scanf("%lld.%lld %lld.%lld", &t, &tt, &ttt, &tttt);
+        pnt[0][i]=t*100+tt;
+        pnt[1][i]=ttt*100+tttt;
+    }
+    for(i=1;i<=v;i++) {
+        for(j=i+1;j<=v;j++) {
+            a[aind++]=(llabs(pnt[0][i]-pnt[0][j])*llabs(pnt[0][i]-pnt[0][j])
+            + llabs(pnt[1][i]-pnt[1][j])*llabs(pnt[1][i]-pnt[1][j]))*FUR*FUR
+            + i*FUR + j;
         }
     }
-    mergeSort(p, 0, ind-1);
-    for(i=1;i<=n;i++) {
-        if(!ide[i]) q[qind++]=i;
-    }
-    if(topsort()) printf("0");
-    else {
-        for(i=0;i<n;i++) {
-            printf("%d\n", q[i]);
+    mergeSort(a, 0, aind-1);
+    for(cnt=i=0;cnt<v&&i<aind;i++) {
+        t=llabs(a[i]/FUR%FUR); tt=llabs(a[i]%FUR); ttt=a[i]/FUR/FUR;
+        if(find(t)!=find(tt)) {
+            cnt++;
+            ans+=sqrt((double)ttt);
+            t=find(t); tt=find(tt);
+            if(t>tt) vis[t]=tt;
+            else vis[tt]=t;
         }
+    }
+    printf("%.2lf", ans/100.0);
+}
+void set() {
+    for(int i=1;i<=v;i++) {
+        vis[i]=i;
     }
 }
