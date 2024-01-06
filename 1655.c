@@ -1,6 +1,6 @@
 #include <stdio.h>
 int a[300100], cnt=0;
-void iheaput(int n) {
+void iheaput(int n) { //min queue, right half
     int _i, _t, f;
     a[++cnt]=n;
     f=cnt;
@@ -16,7 +16,7 @@ void iheaput(int n) {
 }
 int oheaput() {
     int _fin, _i, _t;
-    if(!cnt) _fin=-1;
+    if(!cnt) _fin=200000;
     else {
         _fin=a[1];
         a[1]=a[cnt];
@@ -50,7 +50,7 @@ void riheaput(int n) {
 }
 int roheaput() {
     int _fin, _i, _t;
-    if(!rcnt) _fin=0;
+    if(!rcnt) _fin=-200000;
     else {
         _fin=ra[1];
         ra[1]=ra[rcnt];
@@ -68,33 +68,54 @@ int roheaput() {
     return _fin;
 }
 
-void merge(int arr[], int left, int middle, int right) {
-    int i, j, k;
-    int n1 = middle-left+1;
-    int n2 = right-middle;
-    int L[n1], R[n2];
-    for(i=0;i<n1;i++) L[i]=arr[left+i];
-    for(j=0;j<n2;j++) R[j]=arr[middle+1+j];
-    for(i=0,j=0,k=left;i<n1&&j<n2;k++) {
-        if(L[i]<=R[j]) arr[k]=L[i++];
-        else arr[k]=R[j++];
-    }
-    for(;i<n1;i++,k++) arr[k]=L[i];
-    for(;j<n2;j++,k++) arr[k] = R[j];
-}
-void mergeSort(int arr[], int left, int right) {
-    if(left<right) {
-        int middle = left + (right - left) / 2;
-        mergeSort(arr, left, middle);
-        mergeSort(arr, middle + 1, right);
-        merge(arr, left, middle, right);
-    }
+void swp(int *a, int *b) { 
+    int _t;
+    _t=*a;
+    *a=*b;
+    *b=_t;
 }
 int main() {
-    int n, i;
+    int n, i, l, t, r, res;
     scanf("%d", &n);
-    for(i=0;i<n;i++) {
-
-        
+    for(i=0;i<n;i++) {  
+        scanf("%d", &t);
+        if(!i) {
+            iheaput(t);
+            res=t;
+        }
+        else if(i==1) {
+            r=oheaput();
+            if(t>r) swp(&t, &r);
+            res=t;
+            riheaput(t);
+            iheaput(r);
+        }
+        else if(!(i%2)) {
+            r=oheaput();
+            l=roheaput();
+            if(t<l) {
+                res=l;
+                swp(&t, &l);
+            }
+            else if(t<r||t==r) res=t;
+            else if(r<t) res=r;
+            iheaput(t);
+            iheaput(r);
+            riheaput(l);
+        }
+        else {
+            r=oheaput();
+            l=roheaput();
+            if(t<l) res=l;
+            else if(t<r||t==r) res=t;
+            else if(r<t) {
+                res=r;
+                swp(&r, &t);
+            }
+            riheaput(t);
+            iheaput(r);
+            riheaput(l);
+        }
+        printf("%d\n", res);
     }
 }
