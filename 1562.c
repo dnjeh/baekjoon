@@ -1,6 +1,6 @@
 #include <stdio.h>
 #define DIV 1000000000
-int mem[10][100][4];
+int mem[10][100][4]; //0: 없음, 1: 1만 다녀옴, 2: 9만 다녀옴, 3: 전부 다 다녀옴
 int n;
 void set();
 int dp(int t, int tt, int ttt) {
@@ -9,18 +9,18 @@ int dp(int t, int tt, int ttt) {
     else {
         if(t-1>=0) {
             if(t==9&&ttt&&ttt!=1) ret=(ret+dp(t-1, tt-1, ttt&1))%DIV;
-            ret=(ret+dp(t-1, tt-1, ttt))%DIV;
+            if((t!=9)||(ttt==3||ttt==2))ret=(ret+dp(t-1, tt-1, ttt))%DIV;
         }
         if(t+1<10) {
             if(!t&&ttt&&ttt!=2) ret=(ret+dp(t+1, tt-1, ttt&2))%DIV;
-            ret=(ret+dp(t+1, tt-1, ttt))%DIV;
+            if(t||(ttt==3||ttt==1))ret=(ret+dp(t+1, tt-1, ttt))%DIV;
         }
         ret%=DIV;
         mem[t][tt][ttt]=ret;
     }
-    if(ret) {
+    /*if(ret) {
         printf("mem[%d][%d][%d]==%d\n",t, tt, ttt, mem[t][tt][ttt]);
-    }
+    }*/
     return ret;
 }
 int main() {
