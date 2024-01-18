@@ -9,7 +9,7 @@ int main() {
     for(i=0;i<n;i++) {
         if(i<n) tsum+=a[i];
         if(i>=k) tsum-=a[i-k];
-        if(i+1==k||max<tsum) max=tsum;
+        if(i+1>=k&&(i+1==k||max<tsum)) max=tsum;
     }
     printf("%d", max);
 }
