@@ -1,12 +1,15 @@
 #include <stdio.h>
 
+int mem[1000000];
+
 int f(int n) {
-    if (n == 0)
-        return 1;
+    if(mem[n]) return mem[n];
+    if (n == 0) return 1;
     int sum = 0;
     for (int i = 0; i < n; i++) {
         sum += f(i);
     }
+    mem[n]=sum%13;
     return sum % 13;
 }
 
