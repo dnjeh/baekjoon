@@ -1,4 +1,5 @@
 #include <stdio.h>
+#define NIE 100000000
 long long int a[100000];
 int b[100100], cnt;
 void merge(long long int arr[], int left, int middle, int right) {
@@ -58,12 +59,30 @@ int oheaput() {
     return _fin;
 }
 
-void aput(int now, int t, int tt) {
+void aput(int now, long long int t, long long int tt) {
+    long long int ttt;
+    if(t<tt) {
+        ttt=t;
+        t=tt;
+        tt=ttt;
+    }
     if(t>=0&&tt<0) {
-        a[now]=;
+        a[now]=t*NIE*10+NIE+tt*-1;
     }
     else {
-        a[now]=t*1e9+tt;
+        a[now]=t*NIE*10+tt;
+    }
+}
+
+long long int apop(int now, int f) {
+    if(f) {
+        if(a[now]/NIE%10) {
+            return (a[now]*-1)%NIE;
+        }
+        else return a[now]%NIE;
+    }
+    else {
+        return a[now]/(NIE*10);
     }
 }
 
@@ -73,21 +92,22 @@ int main() {
     scanf("%lld", &n);
     for(int i=0;i<n;i++) {
         scanf("%lld %lld", &tt, &t);
-        if(t>tt) {
-            ttt=t;
-            t=tt;
-            tt=ttt;
-        }
         aput(i, tt, t);
-    } scanf("%d", &d);
+    } scanf("%lld", &d);
     mergeSort(a, 0, n-1);
     for(int i=0;i<n;i++) {
-        t=oheaput(); r=apop(i, 0); l=apop(i, 1);
-        if(i&&r-t>d) {
-            tcnt--;
-        }
-        else if(i) {
-            iheaput(t);
+        r=apop(i, 0); l=apop(i, 1);
+        //printf("%lld %lld %lld\n", a[i], r, l);
+        for(;cnt;) {
+            t=oheaput(); 
+            //printf("%lld\n", t);
+            if(r-t>d) {
+                tcnt--;
+            }
+            else {
+                iheaput(t);
+                break;
+            }
         }
         if(r-l<=d) {
             iheaput(l);
