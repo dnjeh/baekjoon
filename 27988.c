@@ -31,8 +31,23 @@ int main() {
         a[i][3]=i+1;
     }
     qsort(a, n, sizeof(a[0]), compare);
+    int col, prei=-1, pree=-2100000000;
     for(int i=0;i<n;i++) {
-        
+        int nows=a[i][0], nowe=a[i][1], nowc=a[i][2], nowi=a[i][3];
+        if(nows>pree) {
+            col=nowc;
+            prei=nowi;
+            pree=nowe;
+        }
+        else {
+            if(nowc!=col) {
+                printf("YES\n%d %d", prei, nowi);
+                return 0;
+            }
+            if(nowe>pree) {
+                pree=nowe; prei=nowi;
+            }
+        }
     }
     printf("NO");
 }
