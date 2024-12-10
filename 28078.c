@@ -44,17 +44,12 @@ void epush(int t) {
         siz++;
     }
 }
-int spop(int t) {
+int spop() {
     if(!siz) return -1;
     else {
         int ret=a[fun(sta-1)];
+        a[fun(sta-1)]=0;
         if(!ret) wcnt--;
-        else if(t&&ret>1) {
-            bcnt--;
-            a[fun(sta)]--;
-            ret=1;
-            return ret;
-        }
         else bcnt-=ret;
         siz--;
         sta=fun(sta-1);
@@ -65,6 +60,7 @@ int epop() {
     if(!siz) return -1;
     else {
         int ret=a[fun(end+1)];
+        a[fun(end+1)]=0;
         if(!ret) wcnt--;
         else bcnt-=ret;
         siz--;
@@ -74,10 +70,9 @@ int epop() {
 }
 int main() {
     char t[10], tt;
-    int q;
+    int q, _pre;
     scanf("%d", &q);
     for(int i=0;i<q;i++) {
-        //printf("%d %d\n", end, sta);
         scanf(" %s", t);
         if(strcmp(t, "pop")) {
             scanf(" %c", &tt);
@@ -89,7 +84,7 @@ int main() {
                 if(tt=='l') rot(-1);
                 else rot(1);
                 if(dir==1) {
-                    int it=spop(0);
+                    int it=spop();
                     if(!it) spush(0);
                 }
                 else if(dir==3) {
@@ -103,14 +98,12 @@ int main() {
             }
         }
         else {
-            int it=spop(1);
+            int it=spop();
             if(!it&&dir==1) {
-                for(it=spop(0);it>0;it=spop(0)) { }
+                it=spop();
                 if(!it) spush(0);
             }
-            else if(it>1) {
-                spush(it-1);
-            }
+            else if(it>1) spush(it-1);
         }
     }
     return 0;
