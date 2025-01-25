@@ -8,7 +8,7 @@ void qput(int t, int tt, int ttt, int tttt) {
     q[t][2][qind[t]++]=tttt;
 }
 void bfs(int tg, int tb, int n, int m) {
-    for(int ind=0, i=0, cnt=0, j=0;ind<qind[0]&&cnt<tg;) {
+    for(int ind=0, i=0, cnt=0, j=0;(ind<qind[0]||j<qind[1])&&cnt<tg;) {
         for(ind=qind[0];i<ind;i++) {
             int x=q[0][1][i], y=q[0][0][i];
             if(x-1>=0&&!vis[y][x-1]) qput(!a[y][x-1]?0:1, y, x-1, !a[y][x-1]?0:tb+cnt);
@@ -18,13 +18,17 @@ void bfs(int tg, int tb, int n, int m) {
         }
         for(;j<qind[1];j++) {
             int x=q[1][1][j], y=q[1][0][j], tcnt=q[1][2][j];
-            if(tcnt>cnt) {
-                j--;
-                break;
-            }
+            if(tcnt>cnt) break;
             qput(0, y, x, 0);
         }
         cnt++;
+        //for(int i=0;i<n;i++) {
+        //    for(int j=0;j<m;j++) {
+        //        printf("%d ", a[i][j]);
+        //    }
+        //    printf("\n");
+        //}
+        //printf("-------\n");
     }
 }
 int main() {
