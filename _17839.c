@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#define MOD 30000019
+#define MOD 20000019
 #define EIG 100000000
 #define LL long long
-char b[2000010][13], c[1000100][13];
-int a[MOD], vis[MOD], cvis[1000100], qind, cind, bind=1, dind, n;
-LL int d[1000100];
+char b[200010][25], c[100100][25];
+int a[MOD], vis[MOD], cvis[MOD], qind, cind, bind=1, dind, n;
+LL int d[100100];
 void mod(LL int *t, LL int tt) {
     *t=(tt%MOD);
 }
@@ -43,11 +43,13 @@ void dfs(LL int to, int f) {
     LL int sta=lbs(to*EIG), end=lbs((to+1)*EIG);
     for(LL int i=sta;i<end;i++) {
         LL int will=d[i]%EIG;
-        if(!vis[will]) dfs(will, 1);
+        if(!vis[will]) {
+            dfs(will, 1);
+        }
     }
 }
 int main() {
-    char t[15], tt[15];
+    char t[25], tt[25];
     scanf("%d", &n);
     for(int i=0;i<n;i++) {
         scanf(" %s is %s", t, tt);
@@ -65,11 +67,11 @@ int main() {
     //for(int i=0;i<n;i++) {
     //    printf("%lld\n", d[i]);
     //}
-    qsort(d, n, sizeof(d[0]), compare);
+    qsort(d, dind, sizeof(d[0]), compare);
     if(a[fun("Baba")]) dfs(fun("Baba"), 0);
     qsort(c, cind, sizeof(c[0]), compare2);
     for(int i=0;i<cind;i++) {
-        printf("%s\n", c[i]);
+        if(strlen(c[i])&&strcmp("Baba", c[i])) printf("%s\n", c[i]);
     }
     return 0;
 }
