@@ -2,13 +2,13 @@
 int chkr(char t) {
     char s[10]="012PQR";
     for(int i=0;s[i];i++) {
-        if(s[i]==t) return i;
+        if(s[i]==t) return i+1;
     }
     return 0;
 }
 int calr(char t, int mcnt, int p, int q, int r) {
     int ret=0;
-    if(chkr(t)<3) ret=t-'0';
+    if(chkr(t)-1<3) ret=t-'0';
     else ret=(t=='P')?p:((t=='Q')?q:r);
     if(mcnt%2) {
         if(!ret) ret=2;
