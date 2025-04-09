@@ -2,5 +2,5 @@
 int main() {
     int a, b;
     scanf("%d %d", &a, &b);
-    printf("%s", a<b?"high speed rail":"flight");
+    printf("%s", a>b?"flight":"high speed rail");
 }
