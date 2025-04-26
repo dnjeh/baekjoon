@@ -1,0 +1,10 @@
+#include <stdio.h>
+int main() {
+    int n, sum=0, t;
+    scanf("%d", &n);
+    for(int i=0;i<n;i++) {
+        scanf("%d", &t);
+        sum+=t;
+    }
+    printf("%s", sum<0?"Left":(sum>0?"Right":"Stay"));
+}
